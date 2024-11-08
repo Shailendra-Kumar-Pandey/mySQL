@@ -1,0 +1,767 @@
+Database:- A database is a software that stores data in organized manner.
+    So it become easy to manage the Data.
+    Data is most important part of programming, life, World etc.
+
+MySQL:- popular database software use to handle data in relation manner.(RDBMS)
+    handle this software {Oracle Company}
+
+Command Query of MySQL:-
+
+Note:- [] not using command prompt only for name file.
+
+1:-  show databases;                                      [this command use to "how many database"]
+
+2:-  create database [db_name];                           [this command use to "Create database" ]   
+
+3:-  use [db_name];                                       ["enter this database" for this Command]
+
+4:-  drop database [db_name];                             [this command use to "delete database"]
+
+5:-  create table [db_name](col1,col2,col3....);          [this command use to "Create table and column"]
+
+for  exm-
+         create table user(id int(10) primary key, name varchar(50) not null, city varchar(20));
+
+6:-  show tables;                                         [this command use to "Show all table your database"]
+
+7:-  desc [tb_name];                                      [this command use to "describe the table and show all col. and datatype use"]
+
+8:-  drop table [tb_name];                                [this command use to "Delete all data and delete also table and columns"]
+
+9:-  alter table [tb_Privname] rename to [tb_Modifname];  [this command use to "table name change"]
+
+10:- truncate table [tb_name];                            [this command use to "Delete All inserted data but table not delete"]
+
+
+11:- insert into [tb_name](col1, col2, col3) values(11, 'jeetu', 'satna');
+
+                            or
+
+     insert into [tb_name] values(11, 'jeetu', 'satna');
+
+                                                          [this command use to "Insert the data of the table"]
+
+12:- select * from [tb_name];                             [this command use to "Show all data inside also table every thing"]
+
+13:- alter table [tb_name] add [col_name] datatype(11)    [this command use to "Table inside create new column"]
+
+14:- update [tb_name] set [col_name]= 'india' where [col_name]= values;  
+                                                          [this command use to "update column data into person row of data update"]
+     update [tb_name] set col= value, col= value where col= values;
+
+15:- delete from [tb_name] where col=value;               [this command use to "table row are delete"]
+
+
+
+
+Foreign key AND joins:-
+
+
+mysql> select * from student;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
+| 9876 | maya             | Pandey   | Rewa   | India   |
++------+------------------+----------+--------+---------+
+6 rows in set (0.03 sec)
+
+mysql> create table laptops(Lid int primary key, Lmodel varchar(50), studentId i
+nt, foreign key(studentId) references student(id));
+Query OK, 0 rows affected (3.61 sec)
+
+mysql> desc student;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| id        | int          | NO   | PRI | NULL    |       |
+| firstName | varchar(20)  | NO   |     | NULL    |       |
+| lastName  | varchar(20)  | NO   |     | NULL    |       |
+| city      | varchar(100) | YES  |     | NULL    |       |
+| country   | varchar(20)  | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+5 rows in set (0.16 sec)
+
+
+mysql> desc laptops;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Lid       | int         | NO   | PRI | NULL    |       |
+| Lmodel    | varchar(50) | YES  |     | NULL    |       |
+| studentId | int         | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.11 sec)
+
+mysql> insert into laptops values(2134, 'HP', 11);
+Query OK, 1 row affected (0.28 sec)
+
+mysql> insert into laptops values(1354, 'Dell', 20);
+Query OK, 1 row affected (0.22 sec)
+
+mysql> insert into laptops values(1784, 'Lenovo', 22);
+Query OK, 1 row affected (0.17 sec)
+
+mysql> select * from laptops;
++------+--------+-----------+
+| Lid  | Lmodel | studentId |
++------+--------+-----------+
+| 1354 | Dell   |        20 |
+| 1784 | Lenovo |        22 |
+| 2134 | HP     |        11 |
++------+--------+-----------+
+3 rows in set (0.00 sec)
+
+
+mysql> select * from student;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
+| 9876 | maya             | Pandey   | Rewa   | India   |
++------+------------------+----------+--------+---------+
+6 rows in set (0.31 sec)
+
+mysql> select student.firstname,student.city , laptops.Lmodel from student , lap
+tops where student.id=laptops.studentid;
++------------------+--------+--------+
+| firstname        | city   | Lmodel |
++------------------+--------+--------+
+| Gayarti          | Panna  | Dell   |
+| Shailendra Kumar | Bhopal | Lenovo |
+| Jeetu            | Satna  | HP     |
++------------------+--------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select student.firstname,student.city , laptops.Lmodel,laptops.lid from s
+tudent , laptops where student.id=laptops.studentid;
++------------------+--------+--------+------+
+| firstname        | city   | Lmodel | lid  |
++------------------+--------+--------+------+
+| Gayarti          | Panna  | Dell   | 1354 |
+| Shailendra Kumar | Bhopal | Lenovo | 1784 |
+| Jeetu            | Satna  | HP     | 2134 |
++------------------+--------+--------+------+
+3 rows in set (0.00 sec)
+
+
+mysql> select student.firstname,student.city , laptops.Lmodel,laptops.lid from s
+tudent , laptops where student.id=laptops.studentid and student.firstname='jeetu
+';
++-----------+-------+--------+------+
+| firstname | city  | Lmodel | lid  |
++-----------+-------+--------+------+
+| Jeetu     | Satna | HP     | 2134 |
++-----------+-------+--------+------+
+1 row in set (0.00 sec)
+
+mysql> select student.firstname , laptops.Lmodel,laptops.lid from student inner
+join laptops on student.id=laptops.studentid;
++------------------+--------+------+
+| firstname        | Lmodel | lid  |
++------------------+--------+------+
+| Gayarti          | Dell   | 1354 |
+| Shailendra Kumar | Lenovo | 1784 |
+| Jeetu            | HP     | 2134 |
++------------------+--------+------+
+3 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Like oprators
+
+1:- % Zero, one, or Multi characters
+
+for exmp. :-
+                A%  output- A
+                            alka
+                            aa 
+                            ahsbdjbash
+            all data show.
+
+2:- _ single character
+
+
+   mysql> select * from student;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
+| 9876 | maya             | Pandey   | Rewa   | India   |
++------+------------------+----------+--------+---------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student where firstname like 's%';
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
++------+------------------+----------+--------+---------+
+3 rows in set (0.00 sec)
+
+
+
+mysql> select * from student where city like '%_a';
++------+---------------+----------+-------+---------+
+| id   | firstName     | lastName | city  | country |
++------+---------------+----------+-------+---------+
+|   11 | Jeetu         | Pandey   | Satna | India   |
+|   20 | Gayarti       | Sharma   | Panna | India   |
+|  987 | Sandeep Kumar | Pandey   | Satna | India   |
+| 9876 | maya          | Pandey   | Rewa  | India   |
++------+---------------+----------+-------+---------+
+4 rows in set (0.00 sec)
+
+
+
+mysql> select * from student where city like '%_a';
++------+---------------+----------+-------+---------+
+| id   | firstName     | lastName | city  | country |
++------+---------------+----------+-------+---------+
+|   11 | Jeetu         | Pandey   | Satna | India   |
+|   20 | Gayarti       | Sharma   | Panna | India   |
+|  987 | Sandeep Kumar | Pandey   | Satna | India   |
+| 9876 | maya          | Pandey   | Rewa  | India   |
++------+---------------+----------+-------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select * from student where city like '%a_';
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
++------+------------------+----------+--------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select * from student where city like 'a_%';
+Empty set (0.00 sec)
+
+mysql> select * from student where city like '%a_%';
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
++------+------------------+----------+--------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from student;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
+| 9876 | maya             | Pandey   | Rewa   | India   |
++------+------------------+----------+--------+---------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student where city like "&a_";
+Empty set (0.00 sec)
+
+mysql> select * from student where city like "%a_";
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
++------+------------------+----------+--------+---------+
+2 rows in set (0.00 sec)
+
+
+
+
+:- SUM FUNction-
+
+mysql> select * from student;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
+| 9876 | maya             | Pandey   | Rewa   | India   |
++------+------------------+----------+--------+---------+
+6 rows in set (0.00 sec)
+
+mysql> select sum(id) from student;
++---------+
+| sum(id) |
++---------+
+|   12150 |
++---------+
+1 row in set (0.14 sec)
+
+mysql> select sum(id) as "Total Salary" from student;
++--------------+
+| Total Salary |
++--------------+
+|        12150 |
++--------------+
+1 row in set (0.00 sec)
+
+
+
+:- AVG function:-
+
+mysql> select avg(id)  from student;
++-----------+
+| avg(id)   |
++-----------+
+| 2025.0000 |
++-----------+
+1 row in set (0.00 sec)
+
+
+:-count function:-
+
+mysql> select count(id)  from student;
++-----------+
+| count(id) |
++-----------+
+|         6 |
++-----------+
+1 row in set (0.82 sec)
+
+
+:- min function:-
+
+mysql> select min(id)  from student;
++---------+
+| min(id) |
++---------+
+|      11 |
++---------+
+1 row in set (0.00 sec)
+
+
+mysql> select firstname from student where id = (select min(id) from student);
++-----------+
+| firstname |
++-----------+
+| Jeetu     |
++-----------+
+1 row in set (0.10 sec)
+
+mysql> select firstname from student where id = (select max(id) from student);
++-----------+
+| firstname |
++-----------+
+| maya      |
++-----------+
+1 row in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+where:-
+
+
+mysql> select * from student;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
+| 9876 | maya             | Pandey   | Rewa   | India   |
++------+------------------+----------+--------+---------+
+6 rows in set (0.00 sec)
+
+
+mysql> select * from student where city="satna";
++-----+---------------+----------+-------+---------+
+| id  | firstName     | lastName | city  | country |
++-----+---------------+----------+-------+---------+
+|  11 | Jeetu         | Pandey   | Satna | India   |
+| 987 | Sandeep Kumar | Pandey   | Satna | India   |
++-----+---------------+----------+-------+---------+
+2 rows in set (0.00 sec)
+
+
+
+mysql> select * from student where lastname="pandey";
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
+| 9876 | maya             | Pandey   | Rewa   | India   |
++------+------------------+----------+--------+---------+
+5 rows in set (0.00 sec)
+
+
+
+
+mysql> select firstname, city, country from student where city="bhopal";
++------------------+--------+---------+
+| firstname        | city   | country |
++------------------+--------+---------+
+| Shailendra Kumar | Bhopal | India   |
+| Shalig Ram       | Bhopal | India   |
++------------------+--------+---------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+mysql> select firstname as "USERNAME" , id as "PASSSWORD" from student;
++------------------+-----------+
+| USERNAME         | PASSSWORD |
++------------------+-----------+
+| Jeetu            |        11 |
+| Gayarti          |        20 |
+| Shailendra Kumar |        22 |
+| Sandeep Kumar    |       987 |
+| Shalig Ram       |      1234 |
+| maya             |      9876 |
++------------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select firstname as "USERNAME" , id as "PASSSWORD" from student where cit
+y= 'rewa';
++----------+-----------+
+| USERNAME | PASSSWORD |
++----------+-----------+
+| maya     |      9876 |
++----------+-----------+
+1 row in set (0.00 sec)
+
+
+mysql> select * from student;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
+| 9876 | maya             | Pandey   | Rewa   | India   |
++------+------------------+----------+--------+---------+
+6 rows in set (0.00 sec)
+
+
+mysql> select city from student;
++--------+
+| city   |
++--------+
+| Satna  |
+| Panna  |
+| Bhopal |
+| Satna  |
+| Bhopal |
+| Rewa   |
++--------+
+6 rows in set (0.00 sec)
+
+
+mysql> select distinct(city) from student;
++--------+
+| city   |
++--------+
+| Satna  |
+| Panna  |
+| Bhopal |
+| Rewa   |
++--------+
+4 rows in set (0.16 sec)
+
+
+mysql> select * from student;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
+| 9876 | maya             | Pandey   | Rewa   | India   |
++------+------------------+----------+--------+---------+
+6 rows in set (0.00 sec)
+
+
+mysql> select * from student where lastname= 'pandey' and city= 'satna';
++-----+---------------+----------+-------+---------+
+| id  | firstName     | lastName | city  | country |
++-----+---------------+----------+-------+---------+
+|  11 | Jeetu         | Pandey   | Satna | India   |
+| 987 | Sandeep Kumar | Pandey   | Satna | India   |
++-----+---------------+----------+-------+---------+
+2 rows in set (0.00 sec)
+
+
+mysql> select * from student where lastname= 'pandey' or city= 'satna';
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
+| 9876 | maya             | Pandey   | Rewa   | India   |
++------+------------------+----------+--------+---------+
+5 rows in set (0.00 sec)
+
+
+mysql> select * from student;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
+| 9876 | maya             | Pandey   | Rewa   | India   |
++------+------------------+----------+--------+---------+
+6 rows in set (0.00 sec)
+
+
+
+mysql> select * from student where id>=20 and id<=1234;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
++------+------------------+----------+--------+---------+
+4 rows in set (0.15 sec)
+
+
+
+mysql> select * from student where id between 20 and 1234;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
++------+------------------+----------+--------+---------+
+4 rows in set (0.00 sec)
+
+
+
+mysql> select * from student where id>20 and id<1234;
++-----+------------------+----------+--------+---------+
+| id  | firstName        | lastName | city   | country |
++-----+------------------+----------+--------+---------+
+|  22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+| 987 | Sandeep Kumar    | Pandey   | Satna  | India   |
++-----+------------------+----------+--------+---------+
+2 rows in set (0.00 sec)
+
+
+
+mysql> select * from student;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
+| 9876 | maya             | Pandey   | Rewa   | India   |
++------+------------------+----------+--------+---------+
+6 rows in set (0.00 sec)
+
+
+
+mysql> select * from student where id= 11 or id= 22 or id= 1234;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
++------+------------------+----------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select * from student where id in(11,22,1234);
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
++------+------------------+----------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select * from student;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
+| 9876 | maya             | Pandey   | Rewa   | India   |
++------+------------------+----------+--------+---------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student limit 4;
++-----+------------------+----------+--------+---------+
+| id  | firstName        | lastName | city   | country |
++-----+------------------+----------+--------+---------+
+|  11 | Jeetu            | Pandey   | Satna  | India   |
+|  20 | Gayarti          | Sharma   | Panna  | India   |
+|  22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+| 987 | Sandeep Kumar    | Pandey   | Satna  | India   |
++-----+------------------+----------+--------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select * from student limit 2 offset 2;
++-----+------------------+----------+--------+---------+
+| id  | firstName        | lastName | city   | country |
++-----+------------------+----------+--------+---------+
+|  22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+| 987 | Sandeep Kumar    | Pandey   | Satna  | India   |
++-----+------------------+----------+--------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select * from student;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
+| 9876 | maya             | Pandey   | Rewa   | India   |
++------+------------------+----------+--------+---------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student order by id desc;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+| 9876 | maya             | Pandey   | Rewa   | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   11 | Jeetu            | Pandey   | Satna  | India   |
++------+------------------+----------+--------+---------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student order by name desc;
+ERROR 1054 (42S22): Unknown column 'name' in 'order clause'
+mysql> select * from student order by firstname desc;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 9876 | maya             | Pandey   | Rewa   | India   |
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   20 | Gayarti          | Sharma   | Panna  | India   |
++------+------------------+----------+--------+---------+
+6 rows in set (0.09 sec)
+
+mysql> select * from student order by firstname asc;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+| 9876 | maya             | Pandey   | Rewa   | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
++------+------------------+----------+--------+---------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student order by firstname;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+| 9876 | maya             | Pandey   | Rewa   | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
++------+------------------+----------+--------+---------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student;
++------+------------------+----------+--------+---------+
+| id   | firstName        | lastName | city   | country |
++------+------------------+----------+--------+---------+
+|   11 | Jeetu            | Pandey   | Satna  | India   |
+|   20 | Gayarti          | Sharma   | Panna  | India   |
+|   22 | Shailendra Kumar | Pandey   | Bhopal | India   |
+|  987 | Sandeep Kumar    | Pandey   | Satna  | India   |
+| 1234 | Shalig Ram       | Pandey   | Bhopal | India   |
+| 9876 | maya             | Pandey   | Rewa   | India   |
++------+------------------+----------+--------+---------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student order by id desc limit 2;
++------+------------+----------+--------+---------+
+| id   | firstName  | lastName | city   | country |
++------+------------+----------+--------+---------+
+| 9876 | maya       | Pandey   | Rewa   | India   |
+| 1234 | Shalig Ram | Pandey   | Bhopal | India   |
++------+------------+----------+--------+---------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+     
